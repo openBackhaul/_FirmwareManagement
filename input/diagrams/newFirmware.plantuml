@@ -1,0 +1,155 @@
+@startuml newFirmware
+skinparam responseMessageBelowArrow true
+
+title
+  Roll-out new Firmware Release
+end title
+
+actor "Engineer\n" as eng
+database "Gloria" as gloria
+actor "InLifeOperator\n" as operator
+actor "ChangeManagement\n" as changeMana
+participant "TSM\n" as tsm
+participant "p1FirmwareManager\n" as fwManager
+database "firmwareRepository" as repository
+participant "Device\n" as device
+
+==  making new firmware release available ==
+
+note over eng
+  - stores new firmware release
+  - documents approval of new
+    firmware release
+  - documents target device 
+    types of new firmware release 
+end note
+eng -> gloria: { firmwareName,\nurl,\ndeviceType }
+
+note over gloria
+  - informs about new firmware release
+    and its target device types
+    (either automatically from Gloria
+    or manually by engineer)
+end note
+gloria -> fwManager: { firmwareName,\nurl,\ndeviceType }
+activate fwManager
+
+  note over fwManager
+    - replicate firmware from Gloria to
+      server reachable by respective device type 
+  end note
+  fwManager -> gloria: { url }
+  fwManager <-- gloria
+  fwManager -> repository
+
+deactivate fwManager
+
+== preparation of groups of devices ==
+
+note over operator
+  - defines groups of devices like, e.g. 
+    rtn950Foa, rtn950All, rtn950Aldi, ...
+end note
+operator -> fwManager: { groupName,\n[deviceIds] }
+
+== preparation of ticket templates ==
+
+note over operator
+  - defines ticket templates
+end note
+operator -> fwManager: { ticketTemplateName,\nsideEffects,\ndownloadWindow,\nactivationWindow,\nmaxBatchSize,\nresponsiblePerson ... }
+
+== roll-out of firmware releases ==
+
+note over operator
+  - associates firmwareName with
+    - group of devices
+    - ticket template
+  - confirms configuration change
+end note
+operator -> fwManager: { firmwareName,\ngroupName,\nticketTemplateName }
+activate fwManager
+
+  note over fwManager
+    - substructures group of devices into batches
+    - creates tickets from template
+    - addresses tickets to TSM
+  end note
+  fwManager -> tsm: { ticketData }
+  activate tsm
+
+    note over changeMana
+      - approves tickets
+    end note
+    changeMana -> tsm: { approval }
+
+    note over tsm
+      - informs about approved tickets
+    end note
+  
+  tsm -> fwManager: { approval }
+  deactivate tsm
+
+  loop for each batch
+
+    loop for each device
+
+      note over fwManager
+        - initiates firmware download
+      end note
+      fwManager -> device: { firmwareName,\nurl }
+      activate device
+
+        note over device
+          - loads firmware
+        end note
+        device -> repository
+        device <-- repository
+
+      fwManager <-- device
+      deactivate device
+
+    end loop
+
+    note over fwManager
+      - advertizes downtime coming soon
+    end note
+    note right fwManager #LightGray
+      alternatively, downtime could be advertised
+      and announced to be completed device by
+      device instead for entire batch
+    end note
+    fwManager -> tsm: { ticketData }
+
+    loop for each device
+
+      note over fwManager
+        - triggers firmware activation
+      end note
+      fwManager -> device
+      activate device
+
+        note over device
+          - restarts with new firmware
+        end note
+
+      fwManager <-- device
+      deactivate device
+
+    end loop
+
+    note over fwManager
+      - informs about downtime completed
+    end note
+    fwManager -> tsm: { ticketData }
+
+  end loop
+
+  note over fwManager
+    - closes ticket
+  end note
+  fwManager -> tsm: { ticketData }
+
+deactivate fwManager
+
+@enduml
