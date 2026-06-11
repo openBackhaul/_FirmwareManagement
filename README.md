@@ -8,10 +8,9 @@ Replacement of ComarchOSS
 
 ## Scope
 
-**High Level Process:**  
-<p align="center">
-  <img src="./input/diagrams/newFirmware.png" alt="High Level Processes" width="600"/>
-</p>  
+_[to be defined]_
+
+See former [concepts](./input/concepts/concepts.md)  
 
 **Detailed Requirements:**  
 See [detailed list of requirements](../../issues?q=is%3Aissue%20label%3AHighLevelRequirement) in the issues section.  
