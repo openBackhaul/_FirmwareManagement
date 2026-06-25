@@ -8,34 +8,39 @@ Replacement of ComarchOSS
 
 ## Scope
 
-_[to be defined]_
-
-See former [concepts](./input/concepts/concepts.md)  
-
-**Detailed Requirements:**  
-See [detailed list of requirements](../../issues?q=is%3Aissue%20label%3AHighLevelRequirement) in the issues section.  
+The _FirmwareManagement UserDemand is still in its design phase.  
+Several [concepts](./input/concepts/concepts.md) have been documented.  
+A list of [detailed requirements](../../issues?q=is%3Aissue%20label%3AHighLevelRequirement) can be found in the issues section.  
 
 ## Components
 
 The following components are required for implementing the _FirmwareManagement UserDemand.  
 
-### New Applications and Tools
+### New Applications
 
-**p1FirmwareManager (Interface Stream):**  A
-Autonomous roll-out of firmware releases.  
-Documenting planned activities and their status in TSM.  
+- [FirmWareManager](https://github.com/openBackhaul/FirmWareManager)  
+  Autonomously manages the firmware on the microwave devices in the network.  
+  Documents planned activities and their status in the ticketing system.  
 
-**FirmwareManagementGui (Tools Stream):**  
-Definition of groups of devices.  
-Definition of ticket templates.  
-Association of firmware releases with groups of devices and ticket templates.  
+### To be updated Tools
 
-### To be updated Applications/Tools
+- MDOI, APT, x:akta, netsite or NetExplorer  
+  Creates and deletes group definitions for devices  
+  Associates target firmware release with group definition  
 
-**Gloria (? Stream):**  
-Interface to p1FirmwareManager for informing about new firmware approvals.  
+- MDOI, APT, x:akta, netsite or NetExplorer  
+  Categorizes individual devices into group definitions  
+
+- AutomationEngine  
+  Provides REST API for creating, updating and deleting tickets in the ticket management system TSM  
 
 ### Dependencies on on-going Implementations
 
-**TSM (? Tools):**  
-Interface for creating, updating and closing of tickets.  
+- FTP Server  
+  Hosts the firmware releases  
+
+- TSM  
+  Stores and represents tickets that document deviations from the target firmware  
+
+- API Gateway  
+  Demarcation between SDN domain and tool layer  
