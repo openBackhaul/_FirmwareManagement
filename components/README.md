@@ -27,9 +27,14 @@
 
 - [MicroWaveDeviceInventory](https://github.com/openBackhaul/MicroWaveDeviceInventory)  
   Retrieves inventory data from the microwave devices  
+- [MicroWaveDeviceGatekeeper](https://github.com/openBackhaul/MicroWaveDeviceGatekeeper)  
+  Manages the access to the microwave devices in the network  
+  _[if decided to be used]_  
 
 ### New Tools
 
+- [_name to be defined_]  
+  Graphical user interface for managing the firmware approvals  
 - [_name to be defined_]  
   Graphical user interface for managing the device group definitions  
 
@@ -37,10 +42,8 @@
 
 - [_to be chosen from MDOI, APT, x:akta, netsite or NetExplorer_]  
   Categorizes individual devices into group definitions  
-
 - AutomationEngine  
   Mediates between FirmWareManager and TSM  
-
 - TSM  
   Represents on-going activities in the network  
   Represents unexpected situations in the FirmWareManager  
@@ -49,10 +52,8 @@
 
 - FTP Server  
   Hosts the firmware releases  
-
 - API Gateway  
   REST demarcation between SDN domain and tool layer  
-
 - EMP  
   Kafka demarcation between SDN domain and tool layer  
-  _[if Kafka is used for error reporting]_
+  _[if Kafka is used for error reporting]_  
